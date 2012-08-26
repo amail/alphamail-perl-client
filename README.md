@@ -1,4 +1,4 @@
-AlphaMail version 1.01
+Comfirm AlphaMail Perl Client (v1.01)
 ======================
 
 This module is the official client library for sending transactional emails with the cloud service AlphaMail.
