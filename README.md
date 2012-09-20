@@ -21,9 +21,9 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  HTTP
-  LWP
-  JSON
+ * HTTP
+ * LWP
+ * JSON
 
 COPYRIGHT AND LICENCE
 
