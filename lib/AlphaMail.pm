@@ -6,7 +6,7 @@ use vars qw($VERSION);
 use HTTP::Request::Common qw(POST);
 use LWP::UserAgent;
 use JSON;
-$VERSION = '1.01';
+$VERSION = '2.00';
 
 
 # result class
@@ -49,26 +49,37 @@ package EmailContact;
 sub new {
     my $class = shift;
     my $self = {
-        _name => shift,
-        _email => shift
+    	id => shift,
+        name => shift,
+        email => shift
     };
     bless $self, $class;
     return $self;
 }
 
+# id
+sub id {
+    my ( $self, $id ) = @_;
+    $self->{id} = $id if defined($id);
+    return $self->{id};
+}
+
 # name
 sub name {
     my ( $self, $name ) = @_;
-    $self->{_name} = $name if defined($name);
-    return $self->{_name};
+    $self->{name} = $name if defined($name);
+    return $self->{name};
 }
 
 # email
 sub email {
     my ( $self, $email ) = @_;
-    $self->{_email} = $email if defined($email);
-    return $self->{_email};
+    $self->{email} = $email if defined($email);
+    return $self->{email};
 }
+
+# serialize to JSON
+sub TO_JSON { return { %{ shift() } }; }
 
 
 # email message payload class
@@ -76,13 +87,10 @@ package EmailMessagePayload;
 sub new {
     my $class = shift;
     my $self = {
-        project_id => 0,
-        receiver_id => 0,
-        sender_name => '',
-        sender_email => '',
-        receiver_name => '',
-        receiver_email => '',
-        body => ''
+        project_id => 0,        
+        sender => '',
+        receiver => '',
+        payload => ''
     };
     bless $self, $class;
     return $self;
@@ -95,26 +103,17 @@ sub projectId {
     return $self->{project_id};
 }
 
-# receiver id
-sub receiverId {
-    my ( $self, $receiverId ) = @_;
-    $self->{receiver_id} = $receiverId if defined($receiverId);
-    return $self->{receiver_id};
-}
-
 # sender
 sub sender {
     my ( $self, $sender ) = @_;
-    $self->{sender_name} = $sender->name if defined($sender);
-    $self->{sender_email} = $sender->email if defined($sender);
+    $self->{sender} = $sender if defined($sender);
     return '';
 }
 
 # receiver
 sub receiver {
     my ( $self, $receiver ) = @_;
-    $self->{receiver_name} = $receiver->name if defined($receiver);
-    $self->{receiver_email} = $receiver->email if defined($receiver);
+    $self->{receiver} = $receiver if defined($receiver);
     return '';
 }
 
@@ -122,8 +121,8 @@ sub receiver {
 sub bodyObject {
     my ( $self, $bodyObject ) = @_;
     # serialize the body to JSON
-    $self->{body} = JSON->new->allow_blessed->convert_blessed->encode($bodyObject) if defined($bodyObject);
-    return $self->{body};
+    $self->{payload} = $bodyObject if defined($bodyObject);
+    return $self->{payload};
 }
 
 # serialize to JSON
@@ -219,28 +218,28 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 	sub TO_JSON { return { %{ shift() } }; }
 	1;
 
+
 	# Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
 	# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@comfirm.se".
 	my $service = new AlphaMailEmailService(
-		"http://api.amail.io/v1",	# Service URL
-		"YOUR-ACCOUNT-API-TOKEN-HERE"	# API Token
+		"http://api.amail.io/v2",		# Service URL
+		"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
 	);
 
-	# Step 2: Let"s fill in the gaps for the variables (stuff) we"ve used in our template
+	# Step 2: Let's fill in the gaps for the variables (stuff) we've used in our template
 	my $message = new HelloWorldMessage(
 		"Hello world like a boss!", 						# message
 		"And to the rest of the world! Chíkmàa! مرحبا! नमस्ते! Dumelang!"		# some other message
 	);	
 
-	# Step 3: Let"s set up everything that is specific for delivering this email
+	# Step 3: Let's set up everything that is specific for delivering this email
 	my $payload = new EmailMessagePayload();
-	$payload->projectId(2);											# Project Id
-	$payload->receiverId(0);										# Receiver Id
-	$payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com'));	# Sender
-	$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@comfirm.se'));		# Receiver //email-of-receiver@comfirm.se
-	$payload->bodyObject($message);										# Body Object
+	$payload->projectId(2);												# Project Id										# Receiver Id
+	$payload->sender(new EmailContact(0, "Sender Company Name", 'your-sender-email@your-sender-domain.com'));	# Sender
+	$payload->receiver(new EmailContact(0, "Joe E. Receiver", 'email-of-receiver@comfirm.se'));			# Receiver
+	$payload->bodyObject($message);											# Body Object
 
-	# Step 4: Haven"t we waited long enough. Let"s send this!
+	# Step 4: Haven't we waited long enough. Let's send this!
 	my $response = $service->queue($payload);
 
 =head1 DESCRIPTION

@@ -35,43 +35,42 @@ sub TO_JSON { return { %{ shift() } }; }
 # Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
 # If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@comfirm.se".
 my $service = new AlphaMailEmailService(
-	"http://api.amail.io/v1",	# Service URL
-	"YOUR-ACCOUNT-API-TOKEN-HERE"	# API Token
+	"http://api.amail.io/v2",		# Service URL
+	"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
 );
 
-# Step 2: Let"s fill in the gaps for the variables (stuff) we"ve used in our template
+# Step 2: Let's fill in the gaps for the variables (stuff) we've used in our template
 my $message = new HelloWorldMessage(
 	"Hello world like a boss!", 						# message
 	"And to the rest of the world! Chíkmàa! مرحبا! नमस्ते! Dumelang!"		# some other message
 );	
 
-# Step 3: Let"s set up everything that is specific for delivering this email
+# Step 3: Let's set up everything that is specific for delivering this email
 my $payload = new EmailMessagePayload();
-$payload->projectId(2);											# Project Id
-$payload->receiverId(0);										# Receiver Id
-$payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com'));	# Sender
-$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@comfirm.se'));		# Receiver
-$payload->bodyObject($message);										# Body Object
+$payload->projectId(2);												# Project Id										# Receiver Id
+$payload->sender(new EmailContact(0, "Sender Company Name", 'your-sender-email@your-sender-domain.com'));	# Sender
+$payload->receiver(new EmailContact(0, "Joe E. Receiver", 'email-of-receiver@comfirm.se'));			# Receiver
+$payload->bodyObject($message);											# Body Object
 
-# Step 4: Haven"t we waited long enough. Let"s send this!
+# Step 4: Haven't we waited long enough. Let's send this!
 my $response = $service->queue($payload);
 
 # Error handling
 switch ($response->errorCode) {
 	case 0 {
 		# OK
-		# Step #5: Pop the champagné! We got here which mean that the request was sent successfully and the email is on it"s way!        
+		# Step #5: Pop the champagné! We got here which mean that the request was sent successfully and the email is on it's way!        
 		print "Successfully queued message with id '".$response->result."' (you can use this ID to get more details about the delivery)\n"; 
 	}
 	case -1 {
 		# AUTHENTICATION ERROR
-		# Ooops! You"ve probably just entered the wrong API-token.
+		# Ooops! You've probably just entered the wrong API-token.
         	print "Authentication error: ".$response->message." (".$response->errorCode.")\n";
 	}
 	case -2 {
 		# VALIDATION ERROR
 		# Example: Handle request specific error code here.
-		if ($response->error_code == 3) {
+		if ($response->errorCode == 3) {
 			# Example: Print a nice message to the user.
 		} else {
 			# Something in the input was wrong. Probably good to double double-check!
@@ -86,7 +85,7 @@ switch ($response->errorCode) {
 	case -4 {
 		# UNKNOWN ERROR
 		# Most likely your internet connection that is down. We are covered for most things except "multi-data-center-angry-server-bashing-monkeys" (remember who coined it) or.. nuclear bombs.
-        	# If one blew. Well.. It"s just likely that our servers are down.
+        	# If one blew. Well.. It's just likely that our servers are down.
         	print "An error (probably related to connection) occurred: ".$response->message."\n";
 	}
 }
