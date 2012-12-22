@@ -47,9 +47,9 @@ my $message = new HelloWorldMessage(
 
 # Step 3: Let's set up everything that is specific for delivering this email
 my $payload = new EmailMessagePayload();
-$payload->projectId(2);												# Project Id										# Receiver Id
-$payload->sender(new EmailContact(0, "Sender Company Name", 'your-sender-email@your-sender-domain.com'));	# Sender
-$payload->receiver(new EmailContact(0, "Joe E. Receiver", 'email-of-receiver@comfirm.se'));			# Receiver
+$payload->projectId(2);												# Project Id
+$payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com', 0));	# Sender
+$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@comfirm.se', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
 $payload->bodyObject($message);											# Body Object
 
 # Step 4: Haven't we waited long enough. Let's send this!
