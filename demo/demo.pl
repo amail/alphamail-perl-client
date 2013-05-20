@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Copyright (c) 2012, Comfirm AB
+# Copyright (c) 2012-2013, Comfirm AB
 # All rights reserved.
 
 # Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@ sub TO_JSON { return { %{ shift() } }; }
 
 
 # Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
-# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@comfirm.se".
+# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
 my $service = new AlphaMailEmailService(
 	"http://api.amail.io/v2",		# Service URL
 	"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
@@ -49,7 +49,7 @@ my $message = new HelloWorldMessage(
 my $payload = new EmailMessagePayload();
 $payload->projectId(2);												# Project Id
 $payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com', 0));	# Sender
-$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@comfirm.se', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
+$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@amail.io', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
 $payload->bodyObject($message);											# Body Object
 
 # Step 4: Haven't we waited long enough. Let's send this!
@@ -92,5 +92,5 @@ switch ($response->errorCode) {
 
 # Writing to out like a boss
 die("\n\nIn doubt or experiencing problems?\n" .
- "Please email our support at support\@comfirm.se\n");
+ "Please email our support at support\@amail.io\n");
  

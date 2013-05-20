@@ -220,7 +220,7 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 
 
 	# Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
-	# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@comfirm.se".
+	# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
 	my $service = new AlphaMailEmailService(
 		"http://api.amail.io/v2",		# Service URL
 		"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
@@ -236,7 +236,7 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 	my $payload = new EmailMessagePayload();
 	$payload->projectId(2);												# Project Id
 	$payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com', 0));	# Sender
-	$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@comfirm.se', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
+	$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@amail.io', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
 	$payload->bodyObject($message);											# Body Object
 
 	# Step 4: Haven't we waited long enough. Let's send this!
@@ -245,22 +245,22 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 =head1 DESCRIPTION
 
 This module is the official client library for sending transactional emails with the cloud service AlphaMail.
-To use this service you need an account. You can sign up for an free account on our website (http://www.comfirm.se). 
+To use this service you need an account. You can sign up for an free account on our website (http://www.amail.io/). 
 
 This is not a service for sending SPAM, newsletters or bulk emails of any kind. This is for transactional emails exclusive. 
-Read more about transactional emails on http://www.comfirm.se.
+Read more about transactional emails at http://www.amail.io/.
 
 =head1 SEE ALSO
 
-http://www.comfirm.se
+http://www.amail.io/
 
 =head1 AUTHOR
 
-Comfirm AB, <lt>support@comfirm.se<gt>
+Comfirm AB, <lt>support@amail.io<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2012, Comfirm AB
+Copyright (c) 2012-2013, Comfirm AB
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
