@@ -159,38 +159,38 @@ sub apiToken {
 
 # send an email
 sub queue {
-	# queue the message
-	my ( $self, $payload ) = @_;
-	my $ua  = LWP::UserAgent->new;
-	my $req = HTTP::Request->new;
-	
-	# create request and set authentication
-	$req->method('POST');
-	$req->uri($self->{_serviceUrl}.'email/queue');
-	$req->authorization_basic('', $self->{_apiToken});
-	
-	# serialize the payload to JSON
-	$req->content(encode('UTF-8', JSON->new->allow_blessed->convert_blessed->encode($payload)));
-	
-	# make the request (POST)
-	my $response = $ua->request($req);
-	
-	# read the response
-	if ($response->decoded_content) {
-		my $result = JSON->new->utf8->decode($response->decoded_content);
-		return new Result(
-			$result->{error_code},
-			$result->{message},
-			$result->{result}
-		);
-	} else {
-		# failed (connection problem?)
-		return new Result(
-			-4,
-			$response->status_line,
-			''
-		);
-	}
+    # queue the message
+    my ( $self, $payload ) = @_;
+    my $ua  = LWP::UserAgent->new;
+    my $req = HTTP::Request->new;
+    
+    # create request and set authentication
+    $req->method('POST');
+    $req->uri($self->{_serviceUrl}.'email/queue');
+    $req->authorization_basic('', $self->{_apiToken});
+    
+    # serialize the payload to JSON
+    $req->content(encode('UTF-8', JSON->new->allow_blessed->convert_blessed->encode($payload)));
+    
+    # make the request (POST)
+    my $response = $ua->request($req);
+    
+    # read the response
+    if ($response->decoded_content) {
+        my $result = JSON->new->utf8->decode($response->decoded_content);
+        return new Result(
+            $result->{error_code},
+            $result->{message},
+            $result->{result}
+        );
+    } else {
+        # failed (connection problem?)
+        return new Result(
+            -4,
+            $response->status_line,
+            ''
+        );
+    }
 }
 1;
 __END__
@@ -200,47 +200,47 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 
 =head1 SYNOPSIS
 
- 	use AlphaMail;
- 	
-	# Hello World-message with data that we"ve defined in our template
-	package HelloWorldMessage;
-	sub new {
-	    my $class = shift;
-	    my $self = {
-		message => shift,		# Represents the <# payload.message #> in our template
-		some_other_message => shift	# Represents the <# payload.some_other_message #> in our template
-	    };
-	    bless $self, $class;
-	    return $self;
-	}
+    use AlphaMail;
+    
+    # Hello World-message with data that we"ve defined in our template
+    package HelloWorldMessage;
+    sub new {
+        my $class = shift;
+        my $self = {
+        message => shift,       # Represents the <# payload.message #> in our template
+        some_other_message => shift # Represents the <# payload.some_other_message #> in our template
+        };
+        bless $self, $class;
+        return $self;
+    }
 
-	# serialize to JSON
-	sub TO_JSON { return { %{ shift() } }; }
-	1;
+    # serialize to JSON
+    sub TO_JSON { return { %{ shift() } }; }
+    1;
 
 
-	# Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
-	# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
-	my $service = new AlphaMailEmailService(
-		"http://api.amail.io/v2/",		# Service URL
-		"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
-	);
+    # Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
+    # If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
+    my $service = new AlphaMailEmailService(
+        "http://api.amail.io/v2/",      # Service URL
+        "YOUR-ACCOUNT-API-TOKEN-HERE"       # API Token
+    );
 
-	# Step 2: Let's fill in the gaps for the variables (stuff) we've used in our template
-	my $message = new HelloWorldMessage(
-		"Hello world like a boss!", 						# message
-		"And to the rest of the world! Chíkmàa! مرحبا! नमस्ते! Dumelang!"		# some other message
-	);	
+    # Step 2: Let's fill in the gaps for the variables (stuff) we've used in our template
+    my $message = new HelloWorldMessage(
+        "Hello world like a boss!",                         # message
+        "And to the rest of the world! Chíkmàa! مرحبا! नमस्ते! Dumelang!"       # some other message
+    );  
 
-	# Step 3: Let's set up everything that is specific for delivering this email
-	my $payload = new EmailMessagePayload();
-	$payload->projectId(2);												# Project Id
-	$payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com', 0));	# Sender
-	$payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@amail.io', 1234));			# Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
-	$payload->bodyObject($message);											# Body Object
+    # Step 3: Let's set up everything that is specific for delivering this email
+    my $payload = new EmailMessagePayload();
+    $payload->projectId(2);                                             # Project Id
+    $payload->sender(new EmailContact("Sender Company Name", 'your-sender-email@your-sender-domain.com', 0));   # Sender
+    $payload->receiver(new EmailContact("Joe E. Receiver", 'email-of-receiver@amail.io', 1234));            # Receiver, the 3rd argument is the optional receiver id and should be either a string or an integer
+    $payload->bodyObject($message);                                         # Body Object
 
-	# Step 4: Haven't we waited long enough. Let's send this!
-	my $response = $service->queue($payload);
+    # Step 4: Haven't we waited long enough. Let's send this!
+    my $response = $service->queue($payload);
 
 =head1 DESCRIPTION
 

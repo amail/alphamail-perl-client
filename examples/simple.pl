@@ -8,8 +8,9 @@
 #     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 #     * Neither the name of the Comfirm AB nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
+require '../src/lib/AlphaMail.pm';
+
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-use lib qw(../src);
 use strict;
 use utf8;
 use Switch;
@@ -31,11 +32,10 @@ sub new {
 sub TO_JSON { return { %{ shift() } }; }
 1;
 
-
 # Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
 # If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
 my $service = new AlphaMailEmailService(
-	"http://api.amail.io/v2",		# Service URL
+	"http://api.amail.io/v2/",		# Service URL
 	"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
 );
 
@@ -93,4 +93,3 @@ switch ($response->errorCode) {
 # Writing to out like a boss
 die("\n\nIn doubt or experiencing problems?\n" .
  "Please email our support at support\@amail.io\n");
- 

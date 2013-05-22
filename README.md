@@ -21,7 +21,7 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
- * HTTP
+ * HTTP::Request
  * LWP
  * JSON
 
