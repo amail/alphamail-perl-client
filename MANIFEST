@@ -1,7 +1,0 @@
-Changes
-Makefile.PL
-MANIFEST
-README
-t/AlphaMail.t
-lib/AlphaMail.pm
-demo/demo.pl

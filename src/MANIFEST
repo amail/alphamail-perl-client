@@ -1,0 +1,4 @@
+Makefile.PL
+MANIFEST
+t/AlphaMail.t
+lib/AlphaMail.pm
