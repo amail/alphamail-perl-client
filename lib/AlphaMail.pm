@@ -166,7 +166,7 @@ sub queue {
 	
 	# create request and set authentication
 	$req->method('POST');
-	$req->uri($self->{_serviceUrl}.'/email/queue');
+	$req->uri($self->{_serviceUrl}.'email/queue');
 	$req->authorization_basic('', $self->{_apiToken});
 	
 	# serialize the payload to JSON
@@ -222,7 +222,7 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 	# Step 1: Let"s start by entering the web service URL and the API-token you"ve been provided
 	# If you haven"t gotten your API-token yet. Log into AlphaMail or contact support at "support@amail.io".
 	my $service = new AlphaMailEmailService(
-		"http://api.amail.io/v2",		# Service URL
+		"http://api.amail.io/v2/",		# Service URL
 		"YOUR-ACCOUNT-API-TOKEN-HERE"		# API Token
 	);
 
@@ -245,14 +245,14 @@ AlphaMail - Perl extension for sending transactional email with the cloud servic
 =head1 DESCRIPTION
 
 This module is the official client library for sending transactional emails with the cloud service AlphaMail.
-To use this service you need an account. You can sign up for an free account on our website (http://www.amail.io/). 
+To use this service you need an account. You can sign up for an free account on our website (http://amail.io/). 
 
 This is not a service for sending SPAM, newsletters or bulk emails of any kind. This is for transactional emails exclusive. 
-Read more about transactional emails at http://www.amail.io/.
+Read more about transactional emails at http://amail.io/.
 
 =head1 SEE ALSO
 
-http://www.amail.io/
+http://amail.io/
 
 =head1 AUTHOR
 

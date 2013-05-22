@@ -1,11 +1,11 @@
-Comfirm AlphaMail Perl Client
+AlphaMail Perl Client
 ======================
 
 This module is the official client library for sending transactional emails with the cloud service AlphaMail.
-To use this service you need an account. You can sign up for an free account on our website (http://www.amail.io/). 
+To use this service you need an account. You can sign up for an free account on our website (http://amail.io/). 
 
 This is not a service for sending SPAM, newsletters or bulk emails of any kind. This is for transactional emails exclusive. 
-Read more about transactional emails at http://www.amail.io/
+Read more about transactional emails at http://amail.io/
 
 
 INSTALLATION
@@ -27,7 +27,7 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2012-2013, Comfirm AB
+Copyright (c) Timothy Johansson, 2012-2013
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
